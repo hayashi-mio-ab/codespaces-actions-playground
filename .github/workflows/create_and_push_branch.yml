@@ -8,6 +8,8 @@ on:
         default: 'new-branch'
 jobs:
   create_and_push_branch:
+    permissions:
+        contents: write
     name: Create and Push Branch
     runs-on: ubuntu-latest
     steps:
