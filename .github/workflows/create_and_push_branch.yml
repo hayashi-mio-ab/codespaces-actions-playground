@@ -24,8 +24,8 @@ jobs:
         run: echo "BRANCH_NAME=release/${{ github.event.inputs.branchName }}" >> "$GITHUB_ENV"
       - name: Create branch
         run: |
-          git switch -c BRANCH_NAME
+          git switch -c ${{ env.BRANCH_NAME }}
       - name: Push branch
         run: |
-          git push origin BRANCH_NAME
+          git push origin ${{ env.BRANCH_NAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
