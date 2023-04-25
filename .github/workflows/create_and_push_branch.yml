@@ -20,10 +20,12 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+      - name: Set Branch name
+        run: echo "BRANCH_NAME=release/${{ github.event.inputs.branchName }}" >> "$GITHUB_ENV"
       - name: Create branch
         run: |
-          git switch -c release/${{ github.event.inputs.branchName }}
+          git switch -c BRANCH_NAME
       - name: Push branch
         run: |
-          git push origin release/${{ github.event.inputs.branchName }}
+          git push origin BRANCH_NAME
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
