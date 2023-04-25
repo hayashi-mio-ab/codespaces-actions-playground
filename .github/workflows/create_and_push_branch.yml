@@ -28,4 +28,3 @@ jobs:
       - name: Push branch
         run: |
           git push origin ${{ env.BRANCH_NAME }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
