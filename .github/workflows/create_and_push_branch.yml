@@ -1,0 +1,25 @@
+name: Create and Push Branch
+on:
+  workflow_dispatch:
+    inputs:
+      branchName:
+        description: 'ブランチ名'
+        required: true
+        default: 'new-branch'
+jobs:
+  create_and_push_branch:
+    name: Create and Push Branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set user
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+      - name: Create branch
+        run: |
+          git switch -c release/${{ github.event.inputs.branchName }}
+      - name: Push branch
+        run: |
+          git push origin release/${{ github.event.inputs.branchName }}
