@@ -1,0 +1,26 @@
+name: Create Pull Request to Main
+on:
+  push:
+
+jobs:
+  create_pull_request:
+    permissions:
+        contents: write
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check pull request exists
+        id: check_pr
+        run: |
+          echo "count=$(gh pr list --head ${{ github.ref_name }} --base main --state open | wc -l)" >> "$GITHUB_OUTPUT"
+      - name: Create pull request
+        if: ${{ steps.check_pr.outputs.count == 0 }}
+        run: |
+          gh pr create --base main --title "Pull Request for ${{ github.ref_name }}" --body "This is a pull request for ${{ github.ref_name }}."
+        env:
+          GH_TOKEN: ${{ github.token }}

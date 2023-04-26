@@ -8,18 +8,25 @@ on:
         default: 'new-branch'
 jobs:
   create_and_push_branch:
+    permissions:
+        contents: write
     name: Create and Push Branch
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set user
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+      - name: Set Branch name
+        run: echo "BRANCH_NAME=release/${{ github.event.inputs.branchName }}" >> "$GITHUB_ENV"
       - name: Create branch
         run: |
-          git switch -c release/${{ github.event.inputs.branchName }}
+          git switch -c ${{ env.BRANCH_NAME }}
       - name: Push branch
         run: |
           git push origin release/${{ github.event.inputs.branchName }}
