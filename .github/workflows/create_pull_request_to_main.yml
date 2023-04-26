@@ -18,9 +18,11 @@ jobs:
         id: check_pr
         run: |
           echo "count=$(gh pr list --head ${{ github.ref_name }} --base main --state open | wc -l)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Create pull request
         if: ${{ steps.check_pr.outputs.count == 0 }}
         run: |
-          gh pr create --base main --title "Pull Request for ${{ github.ref_name }}" --body "This is a pull request for ${{ github.ref_name }}."
+          gh pr create --base ${{ github.ref_name }} --title "Pull Request for main" --body "This is a pull request for main."
         env:
           GH_TOKEN: ${{ github.token }}
