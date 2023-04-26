@@ -1,8 +1,7 @@
 name: Create Pull Request to Main
 on:
   push:
-    branches:
-      - 'release/test'
+
 jobs:
   create_pull_request:
     permissions:
