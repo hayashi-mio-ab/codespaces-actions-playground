@@ -23,6 +23,6 @@ jobs:
       - name: Create pull request
         if: ${{ steps.check_pr.outputs.count == 0 }}
         run: |
-          gh pr create --base main --title "Pull Request for main"
+          gh pr create --base main --fill
         env:
           GH_TOKEN: ${{ github.token }}
